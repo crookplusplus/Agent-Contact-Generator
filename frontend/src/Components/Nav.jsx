@@ -61,7 +61,11 @@ const Nav = () => {
           <MenuItem site="/" name="HOME"/>
           <MenuItem site="/about" name="ABOUT"/>
           <MenuItem site="/services" name="SERVICES"/>
-          <MenuItem site="/login" name="LOGIN"/>
+          <MenuItem site="/login" name="LOGIN" />
+          <MenuItem site="/signup" name="SIGNUP" />
+          {/**This is just for practice and making backend server calls */}
+          <MenuItem site="/test" name="TEST"/>
+          <MenuItem site="/data" name="DATA" />
         </ul>
       </div>
     </nav>
