@@ -1,7 +1,7 @@
 const express = require("express");
 
 //import statements for controller functions
-const { loginUser, signupUser, deleteList, deleteUser } = require("../controllers/userController");
+const { loginUser, signupUser, deleteList, deleteUser, refreshUserToken } = require("../controllers/userController");
 
 
 //create instance of the router
@@ -14,8 +14,10 @@ router.post('/signup', signupUser)
 router.post('/login', loginUser);
 //remove user from database
 router.delete('/delete/:id', deleteUser);
+//refreshes user token
+router.post('/refresh', refreshUserToken);
 
-//deletes apiCall from database and user profile
+//deletes apiCall/list from database and user profile
 router.delete('/list/delete/:id', deleteList);
 
 
