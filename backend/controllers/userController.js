@@ -97,6 +97,35 @@ const loginUser = async (req, res, next) => {
   })(req, res, next);
 };
 
+
+//function to logout user
+const logoutUser = async (req, res) => {
+  const { signedCookies = {} } = req;
+  const { refreshToken } = signedCookies;
+
+  try {
+    const user = await User.findById(req.user._id);
+
+    const tokenIndex = user.refreshToken.findIndex(
+      item => item.refreshToken === refreshToken
+    );
+
+    if (tokenIndex !== -1) {
+      user.refreshToken.pull(user.refreshToken[tokenIndex]._id);
+    }
+
+    await user.save();
+
+    res.clearCookie("refreshToken", COOKIE_OPTIONS);
+    res.status(200).json({ mssg: "User logged out" , success: true});
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+};
+
+
+
 //function to remove user by id
 const deleteUser = async (req, res) => {
   const { user_id } = req.body;
@@ -198,6 +227,7 @@ const refreshUserToken = async (req, res, next) => {
 module.exports = {
   signupUser,
   loginUser,
+  logoutUser,
   deleteList,
   deleteUser,
   refreshUserToken,
