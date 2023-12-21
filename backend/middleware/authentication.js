@@ -8,7 +8,7 @@ const environment = false;
 exports.COOKIE_OPTIONS = {
     httpOnly: true,
     secure: environment,
-    sameSite: 'lax',
+    sameSite: 'None',
     maxAge: eval(process.env.REFRESH_TOKEN_EXPIRY) * 1000,
 };
 

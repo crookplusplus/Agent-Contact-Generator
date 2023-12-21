@@ -29,11 +29,13 @@ const whiteList = process.env.WHITELISTED_DOMAINS
   ? process.env.WHITELISTED_DOMAINS.split(",")
   : [];
 
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whiteList.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.log(whiteList);
       callback(new Error("Not allowed by CORS"));
     }
   },
