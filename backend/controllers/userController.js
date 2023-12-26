@@ -36,8 +36,6 @@ const signupUser = async (req, res) => {
     res
       .status(200)
       .json({
-        id: user._id,
-        email: user.email,
         success: true,
         token,
         mssg: "User created",
@@ -86,8 +84,7 @@ const loginUser = async (req, res, next) => {
       res
         .status(200)
         .json({
-          id: user._id,
-          email: user.email,
+          success: true,
           mssg: "User logged in",
           token,
         });
@@ -196,11 +193,13 @@ const refreshUserToken = async (req, res, next) => {
             //refresh token found, so create new refresh token and replace it
             const newRefreshToken = getRefreshToken({ _id: userId });
             user.refreshToken[tokenIndex] = { refreshToken: newRefreshToken };
+            //generate a new token for the front end to use
+            const token = getToken({ _id: userId }); 
             //save new refresh token to user object and send it to the client
             try {
               const savedUser = await user.save();
               res.cookie("refreshToken", newRefreshToken,{ ...COOKIE_OPTIONS, signed: true}); 
-              res.status(200).json({ success: true, newRefreshToken });
+              res.status(200).json({ success: true, token });
             } catch (err) {
               return res.status(500).json({ error: err });
             }
