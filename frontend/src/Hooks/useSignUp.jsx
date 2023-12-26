@@ -1,9 +1,14 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { useAuthUserContext } from "./useAuthUserContext";
 
 export const useSignUp = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
+  const { userState, userDispatch } = useAuthUserContext();
+
+  useEffect(() => {
+    console.log('AuthContext state: ', userState);
+  }, [userState]);
 
   const signup = async (email, password) => {
     setIsLoading(true);
@@ -24,6 +29,9 @@ export const useSignUp = () => {
     if (response.ok) {
       setIsLoading(false);
       console.log(json.mssg);
+      const token = json.token;
+      //set the user info in the context
+      userDispatch({ type: "LOGIN", payload: token });
     }
   };
   return { signup, isLoading, error };

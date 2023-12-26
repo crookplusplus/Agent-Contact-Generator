@@ -3,10 +3,13 @@ import { TiThMenu } from "react-icons/ti";
 import { RiCloseLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import MenuItem from "./MenuItem";
+import LogoutButton from "./LogoutButton";
+import { useAuthUserContext } from "../Hooks/useAuthUserContext";
 
 const Nav = () => {
   let [open, setOpen] = useState(false);
   const menuRef = useRef(null);
+  const { userState } = useAuthUserContext();
 
   const handleResize = () => {
     if (window.innerWidth >= 768){
@@ -64,8 +67,9 @@ const Nav = () => {
           <MenuItem site="/login" name="LOGIN" />
           <MenuItem site="/signup" name="SIGNUP" />
           {/**This is just for practice and making backend server calls */}
-          <MenuItem site="/test" name="TEST"/>
-          <MenuItem site="/data" name="DATA" />
+          {userState.token && <MenuItem site="/test" name="TEST"/>}
+          {userState.token && <MenuItem site="/data" name="DATA" />}
+          <LogoutButton />
         </ul>
       </div>
     </nav>

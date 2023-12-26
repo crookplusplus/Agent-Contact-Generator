@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const passportLocalMongoose = require("passport-local-mongoose");
+const validator = require("validator");
 
 const Schema = mongoose.Schema;
 
