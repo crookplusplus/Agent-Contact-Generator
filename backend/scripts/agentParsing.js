@@ -124,7 +124,8 @@ function parseEmail(agentData) {
  * @returns {Array<string>} an array containing the address, city, state, and zip of the Agent
  */
 function parseAddress(agentData) {
-  const address = agentData.address.line + " " + agentData.address.line2;
+  const line2 = agentData.address.line2 ? agentData.address.line2 : '';
+  const address = agentData.address.line + " " + line2;
   const city = agentData.address.city;
   const state = agentData.address.state_code;
   const zip = agentData.address.postal_code;

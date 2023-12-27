@@ -22,7 +22,8 @@ function zipValidator(ZIP) {
  * @returns {any} returns status codes and errors back to the front end
  */
 const generateAgentInfo = async (req, res) => {
-  const { numberOfCalls, zipCode, user_id } = req.body;
+  const { numberOfCalls, zipCode } = req.body;
+  const user_id = req.user._id;
 
   //throw input errors
   if (numberOfCalls == "0") {

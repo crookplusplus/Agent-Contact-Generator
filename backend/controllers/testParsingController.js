@@ -10,7 +10,8 @@ const ApiCall = require("../models/apiCallModel");
 const User = require("../models/userModel");
 
 const testAgentParsing = async (req, res) => {
-  const { numSkip, numAgent, user_id, zip_code } = req.body;
+  const { numSkip, numAgent, zip_code } = req.body;
+  const user_id = req.user._id;
   const apiCall =  await ApiCall.create({ user_id, num_agents: numAgent, zip_code });
 
   if (!apiCall) {
