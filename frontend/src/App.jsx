@@ -8,6 +8,8 @@ import TestPage from "./Pages/TestPage";
 import DataPage from "./Pages/DataPage";
 import LoginPage from "./Pages/LoginPage";
 import SignUpPage from "./Pages/SignUpPage";
+import UserLanding from "./Pages/UserLanding";
+import SomePage from "./Pages/SomePage";
 import { useAuthUserContext } from "./Hooks/useAuthUserContext";
 
 function App() {
@@ -37,8 +39,9 @@ function App() {
     <>
       <Layout>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={userState.token ?<UserLanding /> : <HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/some" element={<SomePage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/login" element={userState.token ? <Navigate to="/" /> : <LoginPage />} />
           <Route path="/signup" element={userState.token ? <Navigate to="/" /> : <SignUpPage />} />

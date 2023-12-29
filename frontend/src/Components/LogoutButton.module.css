@@ -1,0 +1,15 @@
+.logoutButton {
+    background-color: var(--color2); /* replace with actual color */
+    color: var(--color4); /* replace with actual color */
+    font-family: var(--font-sil); /* replace with actual font */
+    font-weight: extrabold; /* replace with actual font weight */
+    font-size: 1.875rem; /* equivalent to Tailwind's text-3xl */
+    padding: 0.25rem 1rem; /* equivalent to Tailwind's py-1 px-4 */
+    border-radius: 0.25rem; /* equivalent to Tailwind's rounded */
+    transition-duration: 300ms; /* equivalent to Tailwind's duration-300 */
+  }
+  
+  .logoutButton:hover {
+    background-color: var(--color3); 
+    color: var(--color5); 
+  }

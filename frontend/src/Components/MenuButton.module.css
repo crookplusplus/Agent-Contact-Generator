@@ -1,0 +1,27 @@
+.menuButton {
+    background-color: var(--color2); /* replace with actual color */
+    color: var(--color4); 
+    font-family: 'Menlo';
+    text-decoration: none;
+    padding: 0.25rem 1rem; /* equivalent to Tailwind's py-1 px-4 */
+    border-radius: 0.25rem; /* equivalent to Tailwind's rounded */
+    transition-duration: 300ms; /* equivalent to Tailwind's duration-300 */
+  }
+  
+  .menuButton:hover {
+    background-color: var(--color4); 
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  .linkStyle {
+    text-decoration: none;
+    color: var(--color4);
+    font-weight: bold;
+    font-size: 1.5rem;
+    font-family: var(--font-sil);
+    transition-duration: 300ms;
+  }
+
+  .linkStyle:hover {
+    color: var(--color1);
+  }

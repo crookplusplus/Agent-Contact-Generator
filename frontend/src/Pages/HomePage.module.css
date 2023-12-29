@@ -1,0 +1,50 @@
+.pageContainer {
+  display: flex;
+  width: 80%;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* Title */
+.title {
+  font-size: 2rem;
+  font-family: var(--font-rocksalt), cursive;
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+  margin: 20px;
+  color: var(--color4); 
+  text-shadow: 3px 3px 5px rgba(91, 91, 91, 0.58);
+}
+
+/* Description */
+.description {
+  font-size: 1.2rem;
+  font-weight: medium;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 20px;
+  color: white; /* Adjust the color as needed */
+}
+
+/* Button container */
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  gap:10px;
+}
+
+/* Menu button */
+.menuB {
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.menuB:hover {
+  background-color: var(--color5); /* Adjust the hover background color as needed */
+}

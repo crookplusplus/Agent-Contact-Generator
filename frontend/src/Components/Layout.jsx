@@ -1,15 +1,18 @@
 import React from 'react';
 import Nav from "./Nav";
+import styles from './Layout.module.css'; // Import your CSS module
 
 const Layout = (props) => {
   return (
-    <div className="relative bg-fixed bg-cover bg-center bg-[url('../src/assets/NewBG.jpg')] w-full h-screen">
-      <div className="absolute inset-0 overflow-y-auto">
+    <div className={styles.background}>
+      <div className={styles.container}>
         <Nav/>
-        <main className='flex top-24 m-10'>{props.children}</main>
+        <main className={styles.content}>
+          {props.children}
+          </main>
       </div>
     </div>
   )
 }
 
-export default Layout
+export default Layout;

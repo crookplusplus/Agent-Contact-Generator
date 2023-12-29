@@ -1,13 +1,14 @@
 import React from 'react'
+import styles from './Card.module.css'
 
 const Card = (props) => {
   return (
-    <section className='container mx-auto font-[Menlo]'>
-        <div className='flex flex-col mx-auto rounded-lg bg-transparent ring-2 ring-color5'>
+    <section className={styles.cardContainer}>
+        <div className={styles.cardWrapper}>
             {props.children}
         </div>
     </section>
   )
 }
 
-export default Card
+export default Card;

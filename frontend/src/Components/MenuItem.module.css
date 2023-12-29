@@ -1,0 +1,31 @@
+.menuItem {
+    align-items: center; 
+    margin-left: 0.5rem; 
+    font-size: 1.875rem; 
+    margin-top: 1.5rem; 
+    margin-bottom: 1.5rem; 
+    margin-right: 1.25rem; 
+    list-style-type: none;
+  }
+
+  @media (max-width: 1000px) {
+    .menuItem {
+      margin: 0.5rem; 
+    }
+  }
+  
+  .menuItem:hover {
+    font-size: 2.25rem; 
+
+  }
+  
+  .link {
+    color: white; 
+    font-family: var(--font-sil); 
+    text-decoration: none;
+    transition-duration: 100ms; 
+  }
+  
+  .link:hover {
+    color: var(--color4); /* replace with actual color */
+  }

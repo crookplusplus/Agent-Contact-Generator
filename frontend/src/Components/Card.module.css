@@ -1,0 +1,21 @@
+.cardContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    font-family: var(--font-sil);
+    width: 100%;
+    
+  }
+  
+  .cardWrapper {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    align-items: center;
+    margin-right: auto;
+    width: 85%;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    border: 2px solid var(--color4); /* Replace with your desired ring color */
+  }
