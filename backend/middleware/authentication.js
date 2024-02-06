@@ -28,4 +28,7 @@ exports.getRefreshToken = user => {
 }
 
 //middleware to for all authenticated requests
+//if used in a routes as a parameter, it will require a valid JWT token and
+//will add the user object to the request
+//For Postman: Authorization -> Bearer Token -> paste JWT token
 exports.verifyUser = passport.authenticate('jwt', {session: false});

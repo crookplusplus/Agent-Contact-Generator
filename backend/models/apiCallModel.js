@@ -17,7 +17,12 @@ const apiCallSchema = new mongoose.Schema(
     },
     call_result:{
       type: String
-    }
+    },
+    agents_contacted: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
   },
   { timestamps: true }
 );

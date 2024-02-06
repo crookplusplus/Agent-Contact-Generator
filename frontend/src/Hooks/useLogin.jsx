@@ -30,9 +30,10 @@ export const useLogin = () => {
     if (response.ok) {
       setIsLoading(false);
       console.log(json.mssg);
+      const username = json.username;
       const token = json.token;
       //set the user info in the context
-      userDispatch({ type: "LOGIN", payload: token });
+      userDispatch({ type: "LOGIN", payload: {token, username }});
     }
   };
   return { login, isLoading, error };

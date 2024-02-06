@@ -55,20 +55,20 @@ const Nav = () => {
           )}
         </div>
         <ul ref = {menuRef}
-          className={`md:flex md:items-center pb-0 md:static md:z-auto z-[-1] left-0 w-full md:w-auto  md:opacity-100 pl-9 ${
-            open ? "transition-max-h-ease-in duration-300 max-h-[500px] opacity-100" : 
-            " max-h-0 opacity-0"}
+          className={`md:flex md:items-center pb-0 md:static md:z-auto z-[-1] left-0 w-28 md:w-auto md:opacity-100 pl-9 ${
+            open ? "transition-max-h-ease-in duration-300 max-h-[500px] opacity-100 z-50" : 
+            " max-h-0 opacity-0 z-[-1]"}
             
           `}
         >
-          <MenuItem site="/" name="HOME"/>
+          <MenuItem site={userState.token ? "/welcome" : "/"} name="HOME"/>
           <MenuItem site="/about" name="ABOUT"/>
           <MenuItem site="/services" name="SERVICES"/>
-          <MenuItem site="/login" name="LOGIN" />
-          <MenuItem site="/signup" name="SIGNUP" />
+          {!userState.token && <MenuItem site="/signup" name="SIGNUP" />}
+          {!userState.token && <MenuItem site="/login" name="LOGIN" />}
           {/**This is just for practice and making backend server calls */}
-          {userState.token && <MenuItem site="/test" name="TEST"/>}
-          {userState.token && <MenuItem site="/data" name="DATA" />}
+          {/**{userState.token && <MenuItem site="/test" name="TEST"/>}*/}
+          {/**{userState.token && <MenuItem site="/data" name="DATA" />}*/}
           <LogoutButton />
         </ul>
       </div>

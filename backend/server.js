@@ -12,6 +12,7 @@ const cors = require("cors");
 const thirdPartyRoutes = require("./routes/thirdPartyData");
 const userRoutes = require("./routes/user");
 const agentDBRoutes = require("./routes/agentDataInDB");
+const adminRoutes = require("./routes/admin");
 
 //import passport files
 require("./strategies/JWTStrategy");
@@ -71,6 +72,8 @@ app.use("/api/data", thirdPartyRoutes);
 app.use("/api/user", userRoutes);
 //agent routes for agent data in database
 app.use("/api/agent", agentDBRoutes);
+//admin routes for admin functions
+app.use("/api/admin", adminRoutes);
 
 //Connect to the DB
 const url = process.env.MONGO_URI + process.env.CALL_DB;

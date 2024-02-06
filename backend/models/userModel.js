@@ -7,18 +7,39 @@ const Schema = mongoose.Schema;
 const Session = new Schema({
   refreshToken: {
     type: String,
-    required: true,
+    required: false,
     default: "",
   },
 });
 
 const userSchema = new Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: false,
+  },  
   email: {
     type: String,
     required: true,
     unique: true,
   },
-  //password is hashed and salted by passport-local-mongoose
+  contactAllowance: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  agentsContacted: {
+    type: Number,
+    default: 0
+  },
+  totalAgentsPulled: {
+    type: Number,
+    default: 0
+  },
+  lastApiCall: {
+    type: Date,
+    default: null
+  },
   apiCallsMade: [
     {
       type: Schema.Types.ObjectId,
@@ -36,9 +57,9 @@ let options = { usernameField: "email", usernameQueryFields: ["email"] };
 userSchema.plugin(passportLocalMongoose, options);
 
 //static signup method to check existence of user, and hash and salt password
-userSchema.statics.signup = async function (email, password) {
+userSchema.statics.signup = async function (username, email, password) {
   //validation
-  if (!email || !password) {
+  if (!username || !email || !password) {
     throw Error("All fields must be filled");
   }
   if (!validator.isEmail(email)) {
@@ -58,7 +79,7 @@ userSchema.statics.signup = async function (email, password) {
   //const user = await this.register({ username: email, name: 'John Doe' }, password);
 
   //creates user object with hashed and salted password
-  const user = await this.register({ email: email }, password);
+  const user = await this.register({username: username, email: email }, password);
 
   return user;
 };

@@ -16,10 +16,10 @@ const { signedCookie } = require("cookie-parser");
 const cookieParser = require("cookie-parser");
 
 const signupUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
 
   try {
-    const user = await User.signup(email, password);
+    const user = await User.signup(username, email, password);
 
     //create a token and refresh token
     const token = getToken({ _id: user._id });
@@ -36,6 +36,7 @@ const signupUser = async (req, res) => {
     res
       .status(200)
       .json({
+        username: user.username,
         success: true,
         token,
         mssg: "User created",
@@ -84,6 +85,7 @@ const loginUser = async (req, res, next) => {
       res
         .status(200)
         .json({
+          username: user.username,
           success: true,
           mssg: "User logged in",
           token,
@@ -102,7 +104,7 @@ const logoutUser = async (req, res) => {
 
   try {
     const user = await User.findById(req.user._id);
-
+    
     const tokenIndex = user.refreshToken.findIndex(
       item => item.refreshToken === refreshToken
     );
@@ -199,7 +201,7 @@ const refreshUserToken = async (req, res, next) => {
             try {
               const savedUser = await user.save();
               res.cookie("refreshToken", newRefreshToken,{ ...COOKIE_OPTIONS, signed: true}); 
-              res.status(200).json({ success: true, token });
+              res.status(200).json({ success: true, token, username: savedUser.username });
             } catch (err) {
               return res.status(500).json({ error: err });
             }
@@ -222,6 +224,90 @@ const refreshUserToken = async (req, res, next) => {
   }
 }
 
+const getHighlights = async (req, res) => {
+  let checkAgentsContacted = 0, checkTotalAgentsPulled = 0;
+
+  try{
+    const user = req.user;
+    for (let callId of user.apiCallsMade) {
+      const list = await ApiCall.findById(callId);
+      if (list) {
+        checkAgentsContacted += list.agents_contacted;
+        checkTotalAgentsPulled += Number(list.num_agents);
+      }
+    }
+    if (user.agentsContacted != checkAgentsContacted) {
+      user.agentsContacted = checkAgentsContacted;
+    }
+    if (user.totalAgentsPulled != checkTotalAgentsPulled) {
+      user.totalAgentsPulled = checkTotalAgentsPulled;
+    }
+    user.save();
+    
+    res
+      .status(200)
+      .json({agentsContacted : user.agentsContacted, 
+        totalAgentsPulled : user.totalAgentsPulled, 
+        lastApiCall : user.lastApiCall, 
+        number_of_lists: user.apiCallsMade.length}
+        );
+  } catch (error){
+    console.log(error);
+    res.status(500).json({ error: 'Error occurred when attempting to retrieve user highlight info' }); // Send error as JSON response
+  }
+};
+
+const getLists = async (req, res) => {
+  let lists = [];
+  
+  try{
+    const user = req.user;
+    for (let callId of user.apiCallsMade) {
+      let list_id = callId;
+      const list = await ApiCall.findById(callId);
+      if (list) {
+        list.agents = await Agent.find({ APICall_id: list._id });
+        let listInfo = {
+          list_id: list_id,
+          num_agents: list.num_agents,
+          zip_code: list.zip_code,
+          agents_contacted: list.agents_contacted,
+          date_created: list.createdAt
+        }
+        lists.push(listInfo); 
+      }
+    }
+
+    res.status(200).json({lists});
+  } catch (error){
+    console.log(error);
+    res.status(500).json({ error: 'Error occurred when attempting to retrieve user lists' }); // Send error as JSON response
+  }
+};
+
+const getContacts = async (req, res) => {
+  let allContacts = {};
+  let chronoList = [];
+  let totalContacts = 0;
+  
+  try{
+    const user = req.user;
+    //reverse the order to get the most recent contacts first
+    chronoList = user.apiCallsMade.reverse();
+
+    for (const list of chronoList){
+      const agents = await Agent.find({ APICall_id: list });
+      totalContacts += agents.length;
+      allContacts[list] = agents;
+    }
+    return res.status(200).json({allContacts, totalContacts});
+
+  } catch {
+    console.log(error);
+    res.status(500).json({ error: 'Error occurred when attempting to retrieve user contacts' }); 
+  }
+
+};
 
 module.exports = {
   signupUser,
@@ -230,4 +316,7 @@ module.exports = {
   deleteList,
   deleteUser,
   refreshUserToken,
+  getHighlights,
+  getLists,
+  getContacts
 };

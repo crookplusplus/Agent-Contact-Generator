@@ -1,20 +1,23 @@
 import React from "react";
 import { useAuthUserContext } from "../Hooks/useAuthUserContext";
+import { useListContext } from "../Hooks/useListContext";
 import { useLogout } from "../Hooks/useLogout";
 
 const LogoutButton = () => {
   const { userState } = useAuthUserContext();
-  const { logout, isLoading } = useLogout();
+  const { listDispatch } = useListContext();
+  const { logout, isLoading, setIsLoading } = useLogout();
 
   const handleLogout = async (e) => {
     e.preventDefault();
 
-    //await logout();
     try {
       await logout();
+      listDispatch({ type: "clearAll" });
+      setIsLoading(false);
     }  catch(error) {
       console.log('Error logging out');
-      isLoading(false);
+      setIsLoading(false);
     }
   };
    

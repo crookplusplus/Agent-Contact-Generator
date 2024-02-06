@@ -5,6 +5,7 @@ export const useLogout = () => {
   const [isLoading, setIsLoading] = useState(null);
   const { userState, userDispatch } = useAuthUserContext();
 
+  //used to inspect the state of the context
   useEffect(() => {
     console.log("AuthContext state: ", userState);
   }, [userState]);
@@ -14,7 +15,7 @@ export const useLogout = () => {
     //setError(null);
 
     const response = await fetch("/api/user/logout", {
-      method: "GET",
+      method: "POST",
       headers: { "Content-Type": "application/json", 
       "Authorization": `Bearer ${userState.token}`},
     });
@@ -23,7 +24,7 @@ export const useLogout = () => {
 
     if (!response.ok) {
       setIsLoading(false);
-      //setError(json.error);
+      console.log(json.error);
     }
     if (response.ok) {
       setIsLoading(false);
@@ -32,5 +33,5 @@ export const useLogout = () => {
       userDispatch({ type: "LOGOUT" });
     }
   };
-  return { logout, isLoading };
+  return { logout, isLoading, setIsLoading };
 };

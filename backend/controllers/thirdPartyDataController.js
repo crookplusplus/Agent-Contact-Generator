@@ -36,21 +36,23 @@ const generateAgentInfo = async (req, res) => {
   if (!zipValidator(zipCode)) {
     return res.status(400).json({ error: "Zip code must be 5 digits" });
   }
+  const user = await User.findById(user_id);
+  if (!user) {
+    console.log("Error finding user during Third Party API call.");
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
   //create new apiCall document
   const apiCall = await ApiCall.create({ user_id, num_agents: 0, zip_code: zipCode });
   if (!apiCall) {
     console.log("Error creating apiCall during Third Party API call.");
     return res.status(500).json({ error: "Internal Server Error" });
   }
-  const user = await User.findById(user_id);
-  if (!user) {
-    console.log("Error finding user during Third Party API call.");
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
 
   try {
     const result = await saveAgentsToDatabase(numberOfCalls, zipCode, user_id, apiCall);
     user.apiCallsMade.push(apiCall._id);
+    user.contactAllowance -= Number(apiCall.num_agents);
+    user.lastApiCall = Date.now();
     await user.save();
     console.log(result.message);
     res.status(200).json(result.message);
