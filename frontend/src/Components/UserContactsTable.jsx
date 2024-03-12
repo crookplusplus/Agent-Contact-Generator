@@ -5,7 +5,7 @@ import { Pagination } from "flowbite-react";
 import { useListContext } from "../Hooks/useListContext";
 import { useContactInfo } from "../Hooks/useContactInfo";
 import { useUpdateContact } from "../Hooks/useUpdateContact";
-import EditContactModal from "./EditContactModal";
+import EditAgentModal from "./EditAgentModal";
 
 const UserContactsTable = () => {
   //for http calls
@@ -225,7 +225,7 @@ const UserContactsTable = () => {
                     <Table.Cell>{agent.address}</Table.Cell>
                     <Table.Cell>{`${agent.city}, ${agent.state}`}</Table.Cell>
                     <Table.Cell>{agent.zip}</Table.Cell>
-                    <Table.Cell><EditContactModal agentInfo={agent}/></Table.Cell>
+                    <Table.Cell><EditAgentModal agentInfo={agent} key={agent._id}/></Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>

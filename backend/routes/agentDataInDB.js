@@ -4,6 +4,7 @@ const express = require("express");
 const { getAgentbyId, 
     getAgentListByListId, 
     updateAgentContactStatus,
+    updateAgentInfo,
     deleteAgent,
     downloadAgentList } = require("../controllers/AgentInfoInDB/agentDBController");
 
@@ -21,9 +22,13 @@ router.get('/:id', getAgentbyId );
 //returns an array of agents and all there information
 router.get('/list/:id', getAgentListByListId);
 
-//update agent contact status in database
+//update agent CONTACTED status in database
 //returns the updated agent
 router.patch('/contact/:id', verifyUser, updateAgentContactStatus);
+
+
+//update agent information in database ->updateAgentInfo
+router.patch('/edit/:id', updateAgentInfo);
 
 //delete agent from database
 //delete agent from database by id and decrements api call num_agents by 1

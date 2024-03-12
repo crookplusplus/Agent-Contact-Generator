@@ -8,12 +8,14 @@ import {
   AgentsContactedCard,
   TotalListCard,
 } from "./DashHighlightCards";
+import { useListContext } from "../Hooks/useListContext";
 
 const UserHighlights = () => {
   const [highlights, setHighlights] = useState(null);
-  const { userState, userDispatch } = useAuthUserContext();
+  const { userState } = useAuthUserContext();
   const [isLoading, setIsLoading] = useState(null);
   const [needAction, setNeedAction] = useState(null);
+  const { listDispatch } = useListContext();
 
   useEffect(() => {
     setIsLoading(true);
@@ -29,6 +31,7 @@ const UserHighlights = () => {
       setHighlights(data);
       //used for building
       console.log(data);
+      listDispatch({ type: "updateTotalAgentsContacted", payload: data.agentsContacted });
       setIsLoading(false);
       if (
         data.number_of_lists === 0 ||

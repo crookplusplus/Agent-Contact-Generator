@@ -35,7 +35,8 @@ export default {
         'color4': '#66FCF1',
         'color5': '#45A29E',
         'affirm': '#24EC1C',
-        'caution': '#FDE047'
+        'caution': '#FDE047',
+        'error': '#FF3333',
       },
     },
   },

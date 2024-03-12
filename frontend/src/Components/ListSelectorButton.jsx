@@ -43,6 +43,11 @@ const ListSelectorButton = () => {
     if (focus && focus.list_id !== "All Contacts") {
       setButtonLabel(focus.zip_code);
     } else if (focus.list_id === "All Contacts") {
+      let contactCount = 0;
+      for (let list of listState.lists) {
+        contactCount += parseInt(list.agents_contacted);
+      }
+      listDispatch({type:"updateTotalAgentsContacted", payload: contactCount});
       setButtonLabel("All Contacts");
     }
   }, [focus]);
