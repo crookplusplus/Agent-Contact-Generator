@@ -51,7 +51,7 @@ function App() {
           <Route path="/lists" element={userState.token ? <UserListPage /> : <Navigate to="/" />} />
           <Route path="/contacts" element={userState.token ? <UserContactsPage /> : <Navigate to="/" />} />
           {/**This is just for practice and making backend server calls */}
-          <Route path="/test" element={userState.token==null ? <Navigate to="/signup" /> : <TestPage />} />
+          <Route path="/test" element= {<TestPage />} />
           <Route path="/data" element={userState.token==null ? <Navigate to="/signup" /> : <DataPage />} />
         </Routes>
       </Layout>

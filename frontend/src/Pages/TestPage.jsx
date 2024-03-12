@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Card from "../Components/Card";
 import { useParsing } from "../Hooks/useParsing";
+import EditAgentModal from "../Components/EditAgentModal";
+
+
 
 const TestPage = () => {
   const [numAgents, setNumAgents] = useState("");
@@ -49,6 +52,9 @@ const TestPage = () => {
           Try
           </button>
         </form>
+      </div>
+      <div>
+        <EditAgentModal />
       </div>
     </Card>
   );

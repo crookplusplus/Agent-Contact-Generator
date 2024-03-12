@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuthUserContext } from "../Hooks/useAuthUserContext";
 import { useListContext } from "../Hooks/useListContext";
+import { useContactInfo } from "./useContactInfo";
 
 export const useEditAgentInfo = () => {
   //for http calls
@@ -8,19 +9,21 @@ export const useEditAgentInfo = () => {
   const { listState, listDispatch } = useListContext();
   const [isLoading, setIsLoading] = useState(null);
   const [errorEA, setErrorEA] = useState(null);
+  const { getContactInfo } = useContactInfo();
 
   const editAgentInfo = async (agentInfo) => {
+    const [agent_id, agentUpdates] = agentInfo;
     setIsLoading(true);
     setErrorEA(null);
 
-    const response = await fetch("/api/user/contacts/edit", {
+    const response = await fetch(`/api/agent/edit/${agent_id}`, {
       method: "PATCH",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${userState.token}`,
       },
-      body: JSON.stringify(agentInfo),
+      body: JSON.stringify(agentUpdates),
     });
 
     const json = await response.json();
@@ -28,45 +31,15 @@ export const useEditAgentInfo = () => {
       setIsLoading(false);
       setErrorEA(json.error);
     }
+
     if (response.ok) {
+      console.log(json.message);
+      let focusList = listState.focus; 
+      getContactInfo();
+      listDispatch({ type: "updateFocus", payload: focusList });
       setIsLoading(false);
-      console.log(json.mssg);
-      let upList = json.upList;
-      let upAgent = json.upAgent;
-      let updateStateLists = listState.lists;
-      let listToUpdate = updateStateLists.find(
-        (list) => list.list_id === upList
-      );
-      if (listToUpdate) {
-        let updateAgentContacts = listState.contacts;
-        //trouble shooting
-        //console.log("updateAgentContacts list: ", updateAgentContacts[upList]);
-        let updatedList = updateAgentContacts[upList]?.filter(
-            (agent) => agent._id !== upAgent
-          );
-          updatedList.push(agentInfo);
-        //trouble shooting
-        //console.log("agentToUpdate: ", agentToUpdate);
-        if (agentToUpdate) {
-          agentToUpdate.contacted = !agentToUpdate.contacted;
-          listDispatch({
-            type: "updateContacts",
-            payload: updateAgentContacts,
-          });
-          if (listState.focus && listState.focus.list_id === "All Contacts") {
-            listDispatch({
-              type: "updateTotalAgentsContacted",
-              payload: listState.totalAgentsContacted + change,
-            });
-          }
-        } else {
-          console.error("Invalid agent or list");
-        }
-      } else {
-        console.error("Invalid list");
-      }
     }
   };
 
-    return { isLoading, errorEA, editAgentInfo };
+  return { isLoading, errorEA, editAgentInfo };
 };
