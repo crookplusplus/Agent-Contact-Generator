@@ -7,7 +7,7 @@ import { IoStorefrontOutline } from "react-icons/io5";
 import CartIcon from '../Components/CartIcon'
 import { Link } from "react-router-dom";
 
-const UserSidebar = (props) => {
+const UserMenuSm = (props) => {
   const location = useLocation();
   const [selected, setSelected] = useState(location.pathname);
 
@@ -17,17 +17,16 @@ const UserSidebar = (props) => {
 
 
   return (
-    <aside className="hidden sm:block">
+    <div className="sm:hidden w-full justify-evenly">
       <nav className=" bg-color2 rounded-lg">
-        <div className="min-h-screen overflow-y-auto overflow-hidden rounded bg-color3 py-4 px-3">
-          <ul className="space-y-2 ">
+        <div className="rounded bg-color3 flex flex-row justify-center items-center space-x-4">
+          <ul className="flex flex-row justify-center items-center space-x-8 z-10">
             <li>
               <Link
                 className={`flex items-center px-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/welcome' ? 'bg-color4' : ''}`}
                 to="/welcome"
               >
                 <BiHome className="w-6 h-6 flex-shrink-0 stroke-0 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
-                <span className="hidden md:inline-block md:pr-2">Home</span>
               </Link>
             </li>
             <li>
@@ -36,7 +35,7 @@ const UserSidebar = (props) => {
                 to="/lists"
               >
                 <FaRegRectangleList className="w-6 h-6 flex-shrink-0 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
-                <span className="hidden md:inline-block md:pr-2">Lists</span>
+
               </Link>
             </li>
             <li>
@@ -45,7 +44,6 @@ const UserSidebar = (props) => {
                 to="/contacts"
               >
                 <LuContact2 className="w-6 h-6 flex-shrink-0 stroke-2 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
-                <span className="hidden md:inline-block md:pr-2">Contacts</span>
               </Link>
             </li>
             <li>
@@ -54,7 +52,6 @@ const UserSidebar = (props) => {
                 to="/products"
               >
                 <IoStorefrontOutline className="w-6 h-6 flex-shrink-0 stroke-0 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
-                <span className="hidden md:inline-block md:pr-2">Products</span>
               </Link>
             </li>
             <li>
@@ -63,14 +60,13 @@ const UserSidebar = (props) => {
                 to="/cart"
               >
                 <CartIcon iconColor="gray-800" badgeColor="color5" badgeText="gray-800"/>
-                <span className="hidden md:inline-block md:pr-2">Cart</span>
               </Link>
             </li>
           </ul>
         </div>
       </nav>
-    </aside>
+    </div>
   );
 };
 
-export default UserSidebar;
+export default UserMenuSm;
