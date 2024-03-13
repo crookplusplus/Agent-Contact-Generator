@@ -26,7 +26,8 @@ export default {
       },
       fontFamily: {
        rocksalt: ['Rock Salt', 'cursive'],
-       sil: ['Shadows Into Light', 'cursive']
+       sil: ['Shadows Into Light', 'cursive'],
+       pop: ['Poppins', 'sans-serif']
       },
       colors: {
         'color1': '#0B0C10',
