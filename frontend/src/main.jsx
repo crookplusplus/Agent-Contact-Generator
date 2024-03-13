@@ -5,12 +5,15 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { AuthUserProvider } from "./Context/authUserContext.jsx";
 import { ListProvider } from "./Context/listContext.jsx";
+import { CartProvider } from "./Context/cartContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AuthUserProvider>
       <ListProvider>
-        <App />
+        <CartProvider>
+          <App />
+        </CartProvider>
       </ListProvider>
     </AuthUserProvider>
   </BrowserRouter>

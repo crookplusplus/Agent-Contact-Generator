@@ -1,11 +1,11 @@
 import React from "react";
 import UserSidebar from "../Components/UserSidebar";
-import UserListTable from "../Components/UserListTable";
-import { useAuthUserContext } from "../Hooks/useAuthUserContext";
 import UserMenuSm from "../Components/UserMenuSm";
+import { useAuthUserContext } from "../Hooks/useAuthUserContext";
+import CartUI from "../Components/CartUI";
 
-const UserListPage = () => {
-  const { userState } = useAuthUserContext();
+const CartPage = () => {
+    const { userState } = useAuthUserContext();
 
   return (
     <>
@@ -15,15 +15,14 @@ const UserListPage = () => {
           <UserMenuSm />
         </div>
         <div className="container bg-color2 rounded-lg p-6">
-          <h1 className="text-color3 mb-8 font-bold font-rocksalt">
-            Your Lists of Contacts:
-          </h1>
-          {/**Table of Lists pulled */}
-          <UserListTable />
+            <h1 className="text-color3 mb-8 font-bold font-rocksalt">
+                {userState.username}'s' Cart:
+            </h1>
+            <CartUI />
         </div>
       </main>
     </>
   );
 };
 
-export default UserListPage;
+export default CartPage;

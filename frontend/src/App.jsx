@@ -11,6 +11,8 @@ import SignUpPage from "./Pages/SignUpPage";
 import UserHomePage from "./Pages/UserHomePage";
 import UserListPage from "./Pages/UserListPage";
 import UserContactsPage from "./Pages/UserContactsPage";
+import ProductsPage from "./Pages/ProductsPage";
+import CartPage from "./Pages/CartPage";
 import { useAuthUserContext } from "./Hooks/useAuthUserContext";
 
 function App() {
@@ -50,6 +52,8 @@ function App() {
           <Route path="/welcome" element={userState.token ? <UserHomePage /> : <Navigate to="/" />} />
           <Route path="/lists" element={userState.token ? <UserListPage /> : <Navigate to="/" />} />
           <Route path="/contacts" element={userState.token ? <UserContactsPage /> : <Navigate to="/" />} />
+          <Route path="/products" element={userState.token ? <ProductsPage /> : <Navigate to="/" />} />
+          <Route path="/cart" element={userState.token ? <CartPage /> : <Navigate to="/" />} />
           {/**This is just for practice and making backend server calls */}
           <Route path="/test" element={userState.token==null ? <Navigate to="/signup" /> : <TestPage />} />
           <Route path="/data" element={userState.token==null ? <Navigate to="/signup" /> : <DataPage />} />
