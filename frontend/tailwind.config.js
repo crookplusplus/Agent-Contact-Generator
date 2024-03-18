@@ -27,7 +27,10 @@ export default {
       fontFamily: {
        rocksalt: ['Rock Salt', 'cursive'],
        sil: ['Shadows Into Light', 'cursive'],
-       pop: ['Poppins', 'sans-serif']
+       pop: ['Poppins', 'sans-serif'],
+       teko: ['Teko', 'sans-serif'],
+       madimi: ['Madimi One', 'sans-serif'],
+       fjalla: ['Fjalla One', 'sans-serif'],
       },
       colors: {
         'color1': '#0B0C10',

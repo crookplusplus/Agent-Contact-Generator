@@ -14,7 +14,7 @@ const UserListPage = () => {
         <div className="w-full">
           <UserMenuSm />
         </div>
-        <div className="container bg-color2 rounded-lg p-6">
+        <div className="container h-full bg-color2 rounded-lg p-6">
           <h1 className="text-color3 mb-8 font-bold font-rocksalt">
             Your Lists of Contacts:
           </h1>

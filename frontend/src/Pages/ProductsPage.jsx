@@ -12,7 +12,7 @@ const ProductsPage = () => {
         <div className="w-full">
           <UserMenuSm />
         </div>
-        <div className="container flex flex-col items-center justify-center bg-color2 rounded-lg p-6">
+        <div className="container flex flex-col h-full items-center justify-center bg-color2 rounded-lg p-6">
           <h1 className="text-color4 font-rocksalt font-bold text-xl tracking-wide">
             Struggling to Connect with Qualified Leads?
           </h1>
