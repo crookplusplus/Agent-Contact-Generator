@@ -29,7 +29,7 @@ const CartSummary = () => {
   }, [cartState]);
 
   return (
-    <div>
+    <div className="mt-1">
       <div className="bg-color3 rounded-lg">
         <div className="flex flex-col p-6">
           <h2 className="font-pop text-xl mb-4">Summary</h2>

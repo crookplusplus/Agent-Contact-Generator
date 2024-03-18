@@ -23,7 +23,7 @@ const UserSidebar = (props) => {
           <ul className="space-y-2 ">
             <li>
               <Link
-                className={`flex items-center px-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/welcome' ? 'bg-color4' : ''}`}
+                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/welcome' ? 'bg-color4' : ''}`}
                 to="/welcome"
               >
                 <BiHome className="w-6 h-6 flex-shrink-0 stroke-0 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
@@ -32,7 +32,7 @@ const UserSidebar = (props) => {
             </li>
             <li>
             <Link
-                className={`flex items-center px-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/lists' ? 'bg-color4' : ''}`}
+                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/lists' ? 'bg-color4' : ''}`}
                 to="/lists"
               >
                 <FaRegRectangleList className="w-6 h-6 flex-shrink-0 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
@@ -41,7 +41,7 @@ const UserSidebar = (props) => {
             </li>
             <li>
             <Link
-                className={`flex items-center px-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/contacts' ? 'bg-color4' : ''}`}
+                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/contacts' ? 'bg-color4' : ''}`}
                 to="/contacts"
               >
                 <LuContact2 className="w-6 h-6 flex-shrink-0 stroke-2 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
@@ -50,7 +50,7 @@ const UserSidebar = (props) => {
             </li>
             <li>
             <Link
-                className={`flex items-center px-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/products' ? 'bg-color4' : ''}`}
+                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/products' ? 'bg-color4' : ''}`}
                 to="/products"
               >
                 <IoStorefrontOutline className="w-6 h-6 flex-shrink-0 stroke-0 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />

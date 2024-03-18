@@ -9,9 +9,9 @@ import { AiOutlineMinusCircle } from "react-icons/ai";
 const ProPack = () => {
   return (
     <div className="rounded-lg bg-gradient-to-r from-gold1 via-gold2 to-gold3 p-2">
-      <div className="flex flex-col items-center justify-center border-solid border-4 rounded-lg border-gold4 shadow-2xl shadow-gold5 p-2 m-2">
-        <h3 className="text-gold4 font-bold text-4xl m-4">PRO</h3>
-        <h3 className="text-gold4 font-bold text-4xl m-4">PACK</h3>
+      <div className="flex flex-col items-center justify-center border-solid border-4 rounded-lg border-gold4 shadow-2xl font-teko shadow-gold5 p-2 m-2">
+        <h3 className="text-gold4 font-bold text-8xl m-4">PRO</h3>
+        <h3 className="text-gold4 font-bold text-8xl m-4">PACK</h3>
       </div>
     </div>
   );
@@ -20,9 +20,9 @@ const ProPack = () => {
 const StarterPack = () => {
     return (
       <div className="rounded-lg bg-gradient-to-r from-silver1 via-silver3 to-silver2 p-2">
-        <div className="flex flex-col items-center justify-center border-solid border-4 rounded-lg border-silver5 shadow-2xl shadow-whitesmoke p-2 m-2">
-          <h3 className="text-silver5 font-bold text-4xl m-4">STARTER</h3>
-          <h3 className="text-silver5 font-bold text-4xl m-4">PACK</h3>
+        <div className="flex flex-col items-center justify-center border-solid border-4 rounded-lg border-silver5 shadow-2xl font-madimi shadow-whitesmoke p-2 m-2">
+          <h3 className="text-silver5 font-bold text-6xl m-4">STARTER</h3>
+          <h3 className="text-silver5 font-bold text-6xl m-4">PACK</h3>
         </div>
       </div>
     );
@@ -31,7 +31,7 @@ const StarterPack = () => {
 const TrialPack = () => {
     return (
       <div className="rounded-lg bg-gradient-to-r from-color1 via-color2 to-color5 p-2">
-        <div className="flex flex-col items-center justify-center border-solid border-4 rounded-lg border-silver shadow-2xl shadow-robinsegg p-2 m-2">
+        <div className="flex flex-col items-center justify-center border-solid border-4 rounded-lg border-silver shadow-2xl font-fjalla shadow-robinsegg p-2 m-2">
           <h3 className="text-timberwolf font-bold text-4xl m-4">TRIAL</h3>
           <h3 className="text-timberwolf font-bold text-4xl m-4">PACK</h3>
         </div>
@@ -103,7 +103,7 @@ const CartDisplay = () => {
               {cartState} Contacts
             </span>
           </div>
-          <div className="flex justify-between mr-4">
+          <div className="flex justify-between align-bottom mr-4">
             <span className="flex text-whitesmoke text-sm">
               <span className="mr-2 mt-1">
                 <AiOutlinePlusCircle
