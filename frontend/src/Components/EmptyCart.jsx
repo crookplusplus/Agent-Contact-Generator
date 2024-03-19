@@ -6,9 +6,6 @@ import { Link } from "react-router-dom";
 const EmptyCart = () => {
   return (
     <div className="flex flex-col items-center justify-center">
-      <h2 className="text-white font-sil tracking-wider text-2xl">
-        Your Cart is empty.
-      </h2>
       <div className="flex flex-col h-full items-center justify-center my-5 ">
         <img
           src={emptyCart}

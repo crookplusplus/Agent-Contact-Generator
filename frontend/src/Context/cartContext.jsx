@@ -2,6 +2,7 @@ import React, { createContext, useContext, useReducer, useEffect } from "react";
 
 const ADD_TO_CART = "ADD_TO_CART";
 const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+const CLEAR_CART = "CLEAR_CART";
 
 //create Cart Context
 export const CartContext = createContext();
@@ -13,6 +14,8 @@ const cartReducer = (cartState, action) => {
       return cartState + action.payload;
     case REMOVE_FROM_CART:
       return cartState - action.payload;
+      case CLEAR_CART:
+      return action.payload;
     default:
       return cartState;
   }
@@ -39,9 +42,13 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = (count) => {
     cartDispatch({ type: REMOVE_FROM_CART, payload: count });
   };
+  //function to clear cart
+  const clearCart = () => {
+    cartDispatch({ type: CLEAR_CART, payload: 0});
+  };
 
   return (
-    <CartContext.Provider value={{ cartState, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cartState, addToCart, removeFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

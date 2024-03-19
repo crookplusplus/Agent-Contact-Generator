@@ -4,6 +4,7 @@ const Agent = require("../models/agentModel");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const validator = require("validator");
+const { saveAgentsToDatabase } = require("../scripts/getAgentData");
 
 //local and JWT authentication variable and function
 //may need to move to the user model
@@ -14,6 +15,16 @@ const {
 } = require("../middleware/authentication");
 const { signedCookie } = require("cookie-parser");
 const cookieParser = require("cookie-parser");
+
+/**
+ * Checks for correct number of digits from the user
+ * @param {any} ZIP string of numbers retrieved from the user
+ * @returns {boolean} if ZIP follows pattern
+ */
+function zipValidator(ZIP) {
+  const zipPattern = /^\d{5}$/;
+  return zipPattern.test(ZIP);
+}
 
 const signupUser = async (req, res) => {
   const { username, email, password } = req.body;
@@ -309,6 +320,51 @@ const getContacts = async (req, res) => {
 
 };
 
+//function used by the redeem page to display the contact allowance of the user
+const userCreditCheck = async (req, res) => {
+  const user = req.user;
+  const credits = user.contactAllowance;
+  res.status(200).json({credits});
+};
+
+//function to redeem user credits for contacts
+const redeemCredits = async (req, res) => {
+  const { toRedeem, zipCode } = req.body;
+  const user = req.user;
+  const numCalls = parseInt(toRedeem / 20);
+
+  //recheck inputs; reduntant for now in place of upgraded validation
+  if (!toRedeem || !zipCode) {
+    return res.status(400).json({ error: "All fields must be filled" });
+  }
+  if (!zipValidator(zipCode)) {
+    return res.status(400).json({ error: "Zip code must be 5 digits" });
+  }
+  if (toRedeem % 20 !== 0) {
+    return res.status(400).json({ error: "Amount should be divisible by 20" });
+  }
+  if (toRedeem > user.contactAllowance) {
+    return res.status(400).json({ error: "Amount exceeds your credits" });
+  }
+  const apiCall = await ApiCall.create({ user_id: user._id, num_agents: 0, zip_code: zipCode });
+  if (!apiCall) {
+    console.log("Error creating apiCall during Third Party API call.");
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+  try {
+    const result = await saveAgentsToDatabase(numCalls, zipCode, user._id, apiCall);
+    user.apiCallsMade.push(apiCall._id);
+    user.contactAllowance -= Number(apiCall.num_agents);
+    user.lastApiCall = Date.now();
+    await user.save();
+    console.log(result.message);
+    res.status(200).json(result.message);
+  } catch (error){
+    console.error("Error when saving data:", error);
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   signupUser,
   loginUser,
@@ -318,5 +374,7 @@ module.exports = {
   refreshUserToken,
   getHighlights,
   getLists,
-  getContacts
+  getContacts,
+  userCreditCheck,
+  redeemCredits
 };

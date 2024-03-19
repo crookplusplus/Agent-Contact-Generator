@@ -72,12 +72,6 @@ const EditAgentModal = (props) => {
     }
   }, [openModal, oldAgentInfo, reset]);
 
-  //testing only
-  useEffect(() => {
-    console.log(listState);
-    //console.log("oldAgentInfo", oldAgentInfo);
-  }, [openModal]);
-
   return (
     <>
       <Button
