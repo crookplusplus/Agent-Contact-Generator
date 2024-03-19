@@ -9,7 +9,9 @@ const { loginUser,
     logoutUser,
     getHighlights,
     getLists,
-    getContacts
+    getContacts,
+    userCreditCheck,
+    redeemCredits
     } = require("../controllers/userController");
 const { verifyUser } = require("../middleware/authentication");
 
@@ -34,6 +36,10 @@ router.get('/highlights', verifyUser, getHighlights)
 router.get('/lists', verifyUser, getLists);
 //gets users agent contact information
 router.get('/contacts', verifyUser, getContacts);
+//gets users contact allowance amount
+router.get('/credits', verifyUser, userCreditCheck);
+//redeems user credits for contacts
+router.post('/redeem', verifyUser, redeemCredits);
 
 //deletes apiCall/list from database and user profile
 router.delete('/list/delete/:id', deleteList);

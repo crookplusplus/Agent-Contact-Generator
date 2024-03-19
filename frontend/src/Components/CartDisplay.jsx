@@ -40,7 +40,7 @@ const TrialPack = () => {
   };
 
 const CartDisplay = () => {
-  const { cartState, addToCart, removeFromCart } = useCartContext();
+  const { cartState, addToCart, removeFromCart, clearCart } = useCartContext();
   const [number, setNumber] = useState("");
   const [price, setPrice] = useState(0.25);
   const [pack, setPack] = useState(null);
@@ -84,6 +84,9 @@ const CartDisplay = () => {
       removeFromCart(value);
     }
   };
+  const handleClear = () => {
+    clearCart();
+  };
 
   return (
     <div>
@@ -94,7 +97,8 @@ const CartDisplay = () => {
         <div className="flex flex-col font-pop text-whitesmoke">
           <div className="relative">
             <div className="absolute top-0 right-0 px-4">
-              <BsTrash3 className="hover:cursor-pointer" />
+              <BsTrash3 className="hover:cursor-pointer"
+              onClick={()=>handleClear()}/>
             </div>
           </div>
           <div className="flex flex-col">

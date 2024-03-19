@@ -4,6 +4,7 @@ import { BiHome } from "react-icons/bi";
 import { FaRegRectangleList } from "react-icons/fa6";
 import { LuContact2 } from "react-icons/lu";
 import { IoStorefrontOutline } from "react-icons/io5";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import CartIcon from '../Components/CartIcon'
 import { Link } from "react-router-dom";
 
@@ -20,7 +21,7 @@ const UserMenuSm = (props) => {
     <div className="sm:hidden w-full justify-evenly">
       <nav className=" bg-color2 rounded-lg">
         <div className="rounded bg-color3 flex flex-row justify-center items-center space-x-4">
-          <ul className="flex flex-row justify-center items-center space-x-8 z-10">
+          <ul className="flex flex-row justify-center items-center space-x-4 z-10">
             <li>
               <Link
                 className={`flex items-center px-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/welcome' ? 'bg-color4' : ''}`}
@@ -44,6 +45,14 @@ const UserMenuSm = (props) => {
                 to="/contacts"
               >
                 <LuContact2 className="w-6 h-6 flex-shrink-0 stroke-2 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
+              </Link>
+            </li>
+            <li>
+            <Link
+                className={`flex items-center px-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/redeem' ? 'bg-color4' : ''}`}
+                to="/redeem"
+              >
+                <AiOutlineUserAdd className="w-6 h-6 flex-shrink-0 stroke-2 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
               </Link>
             </li>
             <li>

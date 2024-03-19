@@ -4,7 +4,8 @@ import { BiHome } from "react-icons/bi";
 import { FaRegRectangleList } from "react-icons/fa6";
 import { LuContact2 } from "react-icons/lu";
 import { IoStorefrontOutline } from "react-icons/io5";
-import CartIcon from '../Components/CartIcon'
+import CartIcon from "../Components/CartIcon";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 const UserSidebar = (props) => {
@@ -15,7 +16,6 @@ const UserSidebar = (props) => {
     setSelected(location.pathname);
   }, [location]);
 
-
   return (
     <aside className="hidden sm:block">
       <nav className=" bg-color2 rounded-lg">
@@ -23,7 +23,9 @@ const UserSidebar = (props) => {
           <ul className="space-y-2 ">
             <li>
               <Link
-                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/welcome' ? 'bg-color4' : ''}`}
+                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${
+                  selected === "/welcome" ? "bg-color4" : ""
+                }`}
                 to="/welcome"
               >
                 <BiHome className="w-6 h-6 flex-shrink-0 stroke-0 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
@@ -31,8 +33,10 @@ const UserSidebar = (props) => {
               </Link>
             </li>
             <li>
-            <Link
-                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/lists' ? 'bg-color4' : ''}`}
+              <Link
+                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${
+                  selected === "/lists" ? "bg-color4" : ""
+                }`}
                 to="/lists"
               >
                 <FaRegRectangleList className="w-6 h-6 flex-shrink-0 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
@@ -40,8 +44,10 @@ const UserSidebar = (props) => {
               </Link>
             </li>
             <li>
-            <Link
-                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/contacts' ? 'bg-color4' : ''}`}
+              <Link
+                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${
+                  selected === "/contacts" ? "bg-color4" : ""
+                }`}
                 to="/contacts"
               >
                 <LuContact2 className="w-6 h-6 flex-shrink-0 stroke-2 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
@@ -49,8 +55,21 @@ const UserSidebar = (props) => {
               </Link>
             </li>
             <li>
-            <Link
-                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/products' ? 'bg-color4' : ''}`}
+              <Link
+                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${
+                  selected === "/redeem" ? "bg-color4" : ""
+                }`}
+                to="/redeem"
+              >
+                <AiOutlineUserAdd className="w-6 h-6 flex-shrink-0 stroke-2 my-2 mx-auto md:mx-2 text-gray-800" />
+                <span className="hidden md:inline-block md:pr-2">Redeem</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={`flex items-center p-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${
+                  selected === "/products" ? "bg-color4" : ""
+                }`}
                 to="/products"
               >
                 <IoStorefrontOutline className="w-6 h-6 flex-shrink-0 stroke-0 my-2 mx-auto md:mx-2 text-gray-800 dark:text-white" />
@@ -58,11 +77,17 @@ const UserSidebar = (props) => {
               </Link>
             </li>
             <li>
-            <Link
-                className={`flex items-center px-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${selected === '/cart' ? 'bg-color4' : ''}`}
+              <Link
+                className={`flex items-center px-2 justify-center md:justify-start rounded-lg hover:bg-gray-50 ${
+                  selected === "/cart" ? "bg-color4" : ""
+                }`}
                 to="/cart"
               >
-                <CartIcon iconColor="gray-800" badgeColor="color5" badgeText="gray-800"/>
+                <CartIcon
+                  iconColor="gray-800"
+                  badgeColor="color5"
+                  badgeText="gray-800"
+                />
                 <span className="hidden md:inline-block md:pr-2">Cart</span>
               </Link>
             </li>
