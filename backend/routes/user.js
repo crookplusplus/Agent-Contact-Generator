@@ -11,7 +11,8 @@ const { loginUser,
     getLists,
     getContacts,
     userCreditCheck,
-    redeemCredits
+    redeemCredits,
+    checkout
     } = require("../controllers/userController");
 const { verifyUser } = require("../middleware/authentication");
 
@@ -40,6 +41,8 @@ router.get('/contacts', verifyUser, getContacts);
 router.get('/credits', verifyUser, userCreditCheck);
 //redeems user credits for contacts
 router.post('/redeem', verifyUser, redeemCredits);
+//increases user contact allowance (cart checkout)
+router.post('/checkout', verifyUser, checkout);
 
 //deletes apiCall/list from database and user profile
 router.delete('/list/delete/:id', deleteList);

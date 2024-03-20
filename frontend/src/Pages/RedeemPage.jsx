@@ -11,9 +11,13 @@ const RedeemPage = () => {
 
   useEffect(() => {
     const checkCredits = async () => {
-      const response = await userCreditCheck(userState);
-      const credits = response.credits;
-      userDispatch({ type: "CREDITS", payload: { credits } });
+      try {
+        const response = await userCreditCheck(userState);
+        const credits = response.credits;
+        userDispatch({ type: "CREDITS", payload: { credits } });
+      } catch (error) {
+        console.log("Failed to pull credits ", error);
+      }
     };
     checkCredits();
   }, [userState.credits]);
