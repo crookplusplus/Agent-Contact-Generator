@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useCartContext } from "../Hooks/useCartContext";
+import { useAuthUserContext } from "../Hooks/useAuthUserContext";
 import { Button } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 const CartSummary = () => {
-  const { cartState } = useCartContext();
+  const { userState, userDispatch } = useAuthUserContext();
+  const { cartState, clearCart } = useCartContext();
   const [price, setPrice] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {}, []);
 
@@ -28,6 +33,36 @@ const CartSummary = () => {
     }
   }, [cartState]);
 
+  const handleCheckout = async () => {
+    let value = cartState;
+    setIsLoading(true);
+    if (value > 100) {
+      value = 100;
+    }
+    
+    const response = await fetch("/api/user/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userState.token}`,
+        },
+      body: JSON.stringify({ value }),
+    });
+    const data = await response.json();
+    const { mssg, success, credits } = data;
+    console.log(data);
+    
+    if (success) {
+      userDispatch({ type: "CREDITS", payload: credits });
+      clearCart();
+    }
+    console.log(mssg);
+    setIsLoading(false);
+    navigate("/checkout");
+    
+    
+  };
+
   return (
     <div className="mt-1">
       <div className="bg-color3 rounded-lg">
@@ -47,9 +82,12 @@ const CartSummary = () => {
             <span className="font-bold">Balance: </span>
             <span className="font-bold">${price}</span>
           </div>
-            <Button className="bg-color4 text-color2 hover:bg-color5 mt-4">
-                Checkout
-            </Button>
+          <Button className="bg-color4 text-color2 hover:bg-color5 mt-4"
+            onClick={()=> handleCheckout()}
+            disabled={isLoading}
+          >
+            Checkout
+          </Button>
         </div>
       </div>
     </div>

@@ -14,7 +14,7 @@ const cartReducer = (cartState, action) => {
       return cartState + action.payload;
     case REMOVE_FROM_CART:
       return cartState - action.payload;
-      case CLEAR_CART:
+    case CLEAR_CART:
       return action.payload;
     default:
       return cartState;
@@ -44,11 +44,13 @@ export const CartProvider = ({ children }) => {
   };
   //function to clear cart
   const clearCart = () => {
-    cartDispatch({ type: CLEAR_CART, payload: 0});
+    cartDispatch({ type: CLEAR_CART, payload: 0 });
   };
 
   return (
-    <CartContext.Provider value={{ cartState, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider
+      value={{ cartState, addToCart, removeFromCart, clearCart }}
+    >
       {children}
     </CartContext.Provider>
   );

@@ -14,6 +14,7 @@ import UserContactsPage from "./Pages/UserContactsPage";
 import ProductsPage from "./Pages/ProductsPage";
 import CartPage from "./Pages/CartPage";
 import RedeemPage from "./Pages/RedeemPage";
+import SplashPage from "./Pages/SplashPage";
 import { useAuthUserContext } from "./Hooks/useAuthUserContext";
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
           <Route path="/products" element={userState.token ? <ProductsPage /> : <Navigate to="/" />} />
           <Route path="/cart" element={userState.token ? <CartPage /> : <Navigate to="/" />} />
           <Route path="/redeem" element={userState.token ? <RedeemPage /> : <Navigate to="/" />} />
+          <Route path="/checkout" element={ <SplashPage /> } />
           {/**This is just for practice and making backend server calls */}
           <Route path="/test" element= {<TestPage />} />
           <Route path="/data" element={userState.token==null ? <Navigate to="/signup" /> : <DataPage />} />

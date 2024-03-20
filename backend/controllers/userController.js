@@ -365,6 +365,20 @@ const redeemCredits = async (req, res) => {
   }
 };
 
+//function to increase user contact allowance (cart checkout)
+const checkout = async (req, res) => {
+  const user = req.user;
+  const { value } = req.body;
+  if (value > 100) {
+    return res.status(400).json({ error: "Amount exceeds maximum" });
+  }
+  user.contactAllowance += Number(value);
+  await user.save();
+  const success = true;
+  const credits = user.contactAllowance;
+  res.status(200).json({ mssg: "Checkout successful", success, credits});
+};
+
 module.exports = {
   signupUser,
   loginUser,
@@ -376,5 +390,6 @@ module.exports = {
   getLists,
   getContacts,
   userCreditCheck,
-  redeemCredits
+  redeemCredits,
+  checkout
 };
