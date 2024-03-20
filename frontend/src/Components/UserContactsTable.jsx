@@ -50,23 +50,27 @@ const UserContactsTable = () => {
     if (listState.focus && listState.contacts[listState.focus.list_id]) {
       setAgentsToDisplay(listState.contacts[listState.focus.list_id]);
       setTableLoading(false);
-    } else if (
+    } 
+    else if (
       listState.focus === null &&
-      listState.lists.length > 0 &&
-      listState.contacts[listState.lists[0].list_id]
-    ) {
-      listDispatch({ type: "updateFocus", payload: listState.lists[0] });
-      setAgentsToDisplay(listState.contacts[listState.lists[0].list_id]);
-    } else if (listState.focus.list_id === "All Contacts") {
-      const allAgents = [];
+      listState.lists.length > 0) 
+      {
+        if (listState.contacts[listState.lists[0].list_id]) 
+      {
+        listDispatch({ type: "updateFocus", payload: listState.lists[0] });
+        setAgentsToDisplay(listState.contacts[listState.lists[0].list_id]);
+      } 
+        else if ( listState.focus.list_id === "All Contacts") {
+        const allAgents = [];
 
-      for (const list of listState.lists) {
-        listState.contacts[list.list_id].forEach((agent) => {
-          allAgents.push(agent);
-        });
-      }
+        for (const list of listState.lists) {
+          listState.contacts[list.list_id].forEach((agent) => {
+            allAgents.push(agent);
+          });
+        }
       setAgentsToDisplay(allAgents);
       setTableLoading(false);
+      }
     }
   }, [listState]);
 

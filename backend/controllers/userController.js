@@ -151,37 +151,6 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const deleteList = async (req, res) => {
-  const { list_id } = req.body;
-
-  try {
-    const deletedCall = await ApiCall.findByIdAndDelete(list_id);
-    if (!deletedCall) {
-      return res.status(404).json({ error: "No list found with this id" });
-    }
-
-    try {
-      // Delete all agents associated with the ApiCall id
-      await Agent.deleteMany({ APICall_id: deletedCall._id });
-    } catch (error) {
-      console.error("Error deleting agents: ", error);
-      return res
-        .status(500)
-        .json({ error: "Error deleting associated agents" });
-    }
-
-    const user = await User.findById(deletedCall.user_id);
-    if (!user) {
-      return res.status(404).json({ error: "No user found with this id" });
-    }
-    user.apiCallsMade.pull(deletedCall._id);
-    await user.save();
-    res.status(200).json({ mssg: "Call deleted" });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
 //function to refresh user token
 const refreshUserToken = async (req, res, next) => {
   const { signedCookies } = req;
@@ -378,6 +347,44 @@ const checkout = async (req, res) => {
   const credits = user.contactAllowance;
   res.status(200).json({ mssg: "Checkout successful", success, credits});
 };
+
+const deleteList = async (req, res) => {
+  const user = req.user;
+  const { list_id } = req.body;
+
+  try {
+    const deletedCall = await ApiCall.findByIdAndDelete(list_id);
+    if (!deletedCall) {
+      return res.status(404).json({ error: "No list found with this id" });
+    }
+
+    try {
+      // Delete all agents associated with the ApiCall id
+      await Agent.deleteMany({ APICall_id: deletedCall._id });
+    } catch (error) {
+      console.error("Error deleting agents: ", error);
+      return res
+        .status(500)
+        .json({ error: "Error deleting associated agents" });
+    }
+
+    user.apiCallsMade.pull(deletedCall._id);
+    await user.save();
+    if(deletedCall.createdAt == user.lastApiCall){
+      user.lastApiCall = user.apiCallsMade[user.apiCallsMade.length - 1].createdAt;
+      await user.save();
+    }
+    if (user.apiCallsMade.length === 0) {
+      user.lastApiCall = null;
+      await user.save();
+    }
+    res.status(200).json({ mssg: "Call deleted" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
 
 module.exports = {
   signupUser,

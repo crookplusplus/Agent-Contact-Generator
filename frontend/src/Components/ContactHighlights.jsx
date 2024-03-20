@@ -118,7 +118,7 @@ const ContactHighlights = () => {
         )}
       </div>
       <div className="col-span-1 flex flex-col justify-center gap-4 my-4 placeholder:min-w-40 rounded-lg shadow-xs overflow-hidden bg-color2 md:mb-8 md:grid-cols-2 xl:grid-cols-4">
-        {!isLoading ? (
+        {!isLoading && listState.focus ? (
           <>
             <TotalAgentsCard
               totalAgentsPulled={Number(listState.focus.num_agents)}
