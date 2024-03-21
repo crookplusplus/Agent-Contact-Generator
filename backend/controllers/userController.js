@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const ApiCall = require("../models/apiCallModel");
 const Agent = require("../models/agentModel");
+const Order = require("../models/orderModel");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const validator = require("validator");
@@ -338,14 +339,36 @@ const redeemCredits = async (req, res) => {
 const checkout = async (req, res) => {
   const user = req.user;
   const { value } = req.body;
+  let limitCount = 0;
+
+
   if (value > 100) {
     return res.status(400).json({ error: "Amount exceeds maximum" });
   }
-  user.contactAllowance += Number(value);
-  await user.save();
-  const success = true;
-  const credits = user.contactAllowance;
-  res.status(200).json({ mssg: "Checkout successful", success, credits});
+  if (user.orders.length > 0) {
+    let l = user.orders.length;
+    let i = l - 1;
+    while (i>=0 && limitCount < 100){
+      const order = await Order.findById(user.orders[i]);
+      if (order.date_created < new Date(Date.now() -24 * 60 * 60 * 1000)){
+        limitCount += order.quantity;
+      }
+      i--;
+    }
+  }
+  //used for testing
+  console.log(limitCount);
+
+  if (limitCount + value < 100) {
+    const order = await Order.create({ user_id: user._id, quantity: value });
+    user.contactAllowance += Number(value);
+    user.orders.push(order._id);
+    await user.save();
+    const credits = user.contactAllowance;
+    res.status(200).json({ mssg: "Checkout successful", credits});
+  } else {
+    res.status(400).json({ error: "Checkout failed, you have reached the daily limit of 100 credits" });
+  }
 };
 
 const deleteList = async (req, res) => {
