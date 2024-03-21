@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const ApiCall = require("../models/apiCallModel");
 const Agent = require("../models/agentModel");
+const Order = require("../models/orderModel");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const validator = require("validator");
@@ -146,37 +147,6 @@ const deleteUser = async (req, res) => {
       return res.status(404).json({ error: "No user found with this id" });
     }
     res.status(200).json({ mssg: "User deleted" });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-const deleteList = async (req, res) => {
-  const { list_id } = req.body;
-
-  try {
-    const deletedCall = await ApiCall.findByIdAndDelete(list_id);
-    if (!deletedCall) {
-      return res.status(404).json({ error: "No list found with this id" });
-    }
-
-    try {
-      // Delete all agents associated with the ApiCall id
-      await Agent.deleteMany({ APICall_id: deletedCall._id });
-    } catch (error) {
-      console.error("Error deleting agents: ", error);
-      return res
-        .status(500)
-        .json({ error: "Error deleting associated agents" });
-    }
-
-    const user = await User.findById(deletedCall.user_id);
-    if (!user) {
-      return res.status(404).json({ error: "No user found with this id" });
-    }
-    user.apiCallsMade.pull(deletedCall._id);
-    await user.save();
-    res.status(200).json({ mssg: "Call deleted" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -369,15 +339,75 @@ const redeemCredits = async (req, res) => {
 const checkout = async (req, res) => {
   const user = req.user;
   const { value } = req.body;
+  let limitCount = 0;
+
+
   if (value > 100) {
     return res.status(400).json({ error: "Amount exceeds maximum" });
   }
-  user.contactAllowance += Number(value);
-  await user.save();
-  const success = true;
-  const credits = user.contactAllowance;
-  res.status(200).json({ mssg: "Checkout successful", success, credits});
+  if (user.orders.length > 0) {
+    let l = user.orders.length;
+    let i = l - 1;
+    while (i>=0 && limitCount < 100){
+      const order = await Order.findById(user.orders[i]);
+      if (order.date_created < new Date(Date.now() -24 * 60 * 60 * 1000)){
+        limitCount += order.quantity;
+      }
+      i--;
+    }
+  }
+  //used for testing
+  console.log(limitCount);
+
+  if (limitCount + value < 100) {
+    const order = await Order.create({ user_id: user._id, quantity: value });
+    user.contactAllowance += Number(value);
+    user.orders.push(order._id);
+    await user.save();
+    const credits = user.contactAllowance;
+    res.status(200).json({ mssg: "Checkout successful", credits});
+  } else {
+    res.status(400).json({ error: "Checkout failed, you have reached the daily limit of 100 credits" });
+  }
 };
+
+const deleteList = async (req, res) => {
+  const user = req.user;
+  const { list_id } = req.body;
+
+  try {
+    const deletedCall = await ApiCall.findByIdAndDelete(list_id);
+    if (!deletedCall) {
+      return res.status(404).json({ error: "No list found with this id" });
+    }
+
+    try {
+      // Delete all agents associated with the ApiCall id
+      await Agent.deleteMany({ APICall_id: deletedCall._id });
+    } catch (error) {
+      console.error("Error deleting agents: ", error);
+      return res
+        .status(500)
+        .json({ error: "Error deleting associated agents" });
+    }
+
+    user.apiCallsMade.pull(deletedCall._id);
+    await user.save();
+    if(deletedCall.createdAt == user.lastApiCall){
+      user.lastApiCall = user.apiCallsMade[user.apiCallsMade.length - 1].createdAt;
+      await user.save();
+    }
+    if (user.apiCallsMade.length === 0) {
+      user.lastApiCall = null;
+      await user.save();
+    }
+    res.status(200).json({ mssg: "Call deleted" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
 
 module.exports = {
   signupUser,

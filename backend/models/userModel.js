@@ -46,6 +46,12 @@ const userSchema = new Schema({
       ref: "ApiCall",
     },
   ],
+  orders: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Order",
+    },
+  ],
   //array of session tokens to support sessions on multiple devices
   refreshToken: {
     type: [Session],

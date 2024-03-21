@@ -45,7 +45,7 @@ router.post('/redeem', verifyUser, redeemCredits);
 router.post('/checkout', verifyUser, checkout);
 
 //deletes apiCall/list from database and user profile
-router.delete('/list/delete/:id', deleteList);
+router.delete('/list/delete', verifyUser, deleteList);
 
 
 module.exports = router;

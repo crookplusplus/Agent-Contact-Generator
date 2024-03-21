@@ -4,9 +4,11 @@ import UserContactsTable from "../Components/UserContactsTable";
 import ListSelectorButton from "../Components/ListSelectorButton";
 import ContactHighlights from "../Components/ContactHighlights";
 import UserMenuSm from "../Components/UserMenuSm";
+import { useListContext } from "../Hooks/useListContext";
 
 const UserContactsPage = () => {
   const [displayDash, setDisplayDash] = useState(true);
+  const { listState } = useListContext();
 
   const toggleDisplayDash = () => {
     setDisplayDash(!displayDash);
@@ -24,7 +26,7 @@ const UserContactsPage = () => {
             <h1 className="text-color3 m-5 font-bold font-rocksalt">
               Your Contacts:
             </h1>
-            <ListSelectorButton />
+            {listState.focus && <ListSelectorButton />}
             <button
               onClick={toggleDisplayDash}
               className="text-color4 bg-color1 hover:bg-color4 hover:text-color1

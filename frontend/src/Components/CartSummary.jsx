@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useCartContext } from "../Hooks/useCartContext";
 import { useAuthUserContext } from "../Hooks/useAuthUserContext";
-import { Button } from "flowbite-react";
+import { Button, Modal } from "flowbite-react";
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { useNavigate } from "react-router-dom";
 
 const CartSummary = () => {
@@ -10,6 +11,7 @@ const CartSummary = () => {
   const [price, setPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   useEffect(() => {}, []);
 
@@ -49,18 +51,23 @@ const CartSummary = () => {
       body: JSON.stringify({ value }),
     });
     const data = await response.json();
-    const { mssg, success, credits } = data;
     console.log(data);
     
-    if (success) {
+    if (response.ok) {
+      const { mssg, credits } = data;
       userDispatch({ type: "CREDITS", payload: credits });
       clearCart();
+      console.log(mssg);
+      navigate("/checkout");
     }
-    console.log(mssg);
+    else {
+      const { error } = data;
+      setError(error);
+      setTimeout(() => {
+        clearCart();
+      }, 2000);
+    }
     setIsLoading(false);
-    navigate("/checkout");
-    
-    
   };
 
   return (
@@ -90,6 +97,17 @@ const CartSummary = () => {
           </Button>
         </div>
       </div>
+      <Modal show={error} size="sm" onClose={() => setError(null)} popup>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-error" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500">
+              {error}
+            </h3>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

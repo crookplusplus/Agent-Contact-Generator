@@ -1,13 +1,14 @@
 import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table } from "flowbite-react";
-import { Pagination } from "flowbite-react";
+import { Pagination, Button, Modal } from "flowbite-react";
 import { VscFilePdf } from "react-icons/vsc";
 import { PiFileCsv } from "react-icons/pi";
 import { ListSkeleton, BlankList } from "./ListComponents";
 import { useAuthUserContext } from "../Hooks/useAuthUserContext";
 import { useListContext } from "../Hooks/useListContext";
 import { useFileDownloader } from "../Hooks/useFileDownloader";
+import { useDeleteList } from "../Hooks/useDeleteList";
 
 const UserListTable = () => {
   //paginatation variables
@@ -18,12 +19,19 @@ const UserListTable = () => {
   //for http calls
   const { userState } = useAuthUserContext();
   const [isLoading, setIsLoading] = useState(null);
-  const { listState, listDispatch  } = useListContext();
+  const { listState, listDispatch } = useListContext();
   //for file download
   const { downloadFile } = useFileDownloader();
   //for user dash navigation
   const nav = useNavigate();
+  //for the modal
+  const [openModal, setOpenModal] = useState(false);
+  //for list deletion
+  const [deleteList, setDeleteList] = useState(null);
+  const { deleteListCall } = useDeleteList();
+ 
 
+  //fetch the lists
   useEffect(() => {
     setIsLoading(true);
     fetch("/api/user/lists", {
@@ -37,9 +45,8 @@ const UserListTable = () => {
       const data = await res.json();
       const chronoList = [...data.lists].reverse();
       listDispatch({ type: "updateLists", payload: chronoList });
-      if (listState.focus === null){
+      if (listState.focus === null) {
         listDispatch({ type: "updateFocus", payload: chronoList[0] });
-
       }
       //used for function testing
       //console.log(listState.lists);
@@ -48,6 +55,10 @@ const UserListTable = () => {
     });
   }, []);
 
+  //for list deletion
+  const deleteListHook = ((deleteList) => {deleteListCall(deleteList); nav("/lists")});
+
+  //for downloading of the list
   const handleDownload = (form, listId, zipCode, dateCreated) => {
     const date = new Date(dateCreated);
     const formattedDate = `${
@@ -55,9 +66,14 @@ const UserListTable = () => {
     }-${date.getDate()}-${date.getFullYear()}`;
     const filename = `${zipCode}_${formattedDate}.${form}`;
 
-    downloadFile(`/api/agent/download/${form}/${listId}`, filename, userState.token);
+    downloadFile(
+      `/api/agent/download/${form}/${listId}`,
+      filename,
+      userState.token
+    );
   };
 
+  //pagination
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentPageData = listState.lists
@@ -78,17 +94,18 @@ const UserListTable = () => {
                 <Table.HeadCell>Zip Code</Table.HeadCell>
                 <Table.HeadCell>Agents Contacted</Table.HeadCell>
                 <Table.HeadCell>Download</Table.HeadCell>
+                <Table.HeadCell>Delete</Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
                 {currentPageData.map((list, index) => (
-                  <Table.Row 
-                    key={index} 
+                  <Table.Row
+                    key={index}
                     className="bg-white"
-                    onClick={() => { 
+                    onClick={() => {
                       listDispatch({ type: "updateFocus", payload: list });
                       nav("/contacts");
                     }}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                       {new Date(list.date_created).toLocaleDateString("en-US", {
@@ -100,7 +117,12 @@ const UserListTable = () => {
                     <Table.Cell>{list.num_agents}</Table.Cell>
                     <Table.Cell>{list.zip_code}</Table.Cell>
                     <Table.Cell>{list.agents_contacted}</Table.Cell>
-                    <Table.Cell style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Table.Cell
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       <a
                         href="#"
                         className="text-cyan-600 hover:underline"
@@ -131,6 +153,19 @@ const UserListTable = () => {
                         <PiFileCsv size="2em" />
                       </a>
                     </Table.Cell>
+                    <Table.Cell>
+                      <Button
+                        pill
+                        gradientMonochrome="teal"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setDeleteList(list.list_id);
+                          setOpenModal(true);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>
@@ -146,7 +181,10 @@ const UserListTable = () => {
                 </span>{" "}
                 to{" "}
                 <span className="font-semibold text-gray-900">
-                  {Math.min(endIndex, listState.lists ? listState.lists.length : 0)}
+                  {Math.min(
+                    endIndex,
+                    listState.lists ? listState.lists.length : 0
+                  )}
                 </span>{" "}
                 of{" "}
                 <span className="font-semibold text-gray-900">
@@ -172,6 +210,28 @@ const UserListTable = () => {
               />
             </div>
           </div>
+          <Modal
+            show={openModal}
+            position="center"
+            size="sm"
+            onClose={() => setOpenModal(false)}
+          >
+            <Modal.Header>Are you sure?</Modal.Header>
+            <Modal.Body>
+              <div className="space-y-6 p-6">
+                <p className="text-base font-pop leading-relaxed text-gray-500 dark:text-gray-400">
+                  Deleting the list is irreversible and will remove the list and
+                  all contacts from the database.
+                </p>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={() => {deleteListHook(deleteList); setOpenModal(false);}}>Continue</Button>
+              <Button color="gray" onClick={() => setOpenModal(false)}>
+                Go Back
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       )}
     </>
