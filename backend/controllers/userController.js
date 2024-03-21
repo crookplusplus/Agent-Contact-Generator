@@ -325,10 +325,11 @@ const redeemCredits = async (req, res) => {
     const result = await saveAgentsToDatabase(numCalls, zipCode, user._id, apiCall);
     user.apiCallsMade.push(apiCall._id);
     user.contactAllowance -= Number(apiCall.num_agents);
+    const credits = user.contactAllowance;
     user.lastApiCall = Date.now();
     await user.save();
     console.log(result.message);
-    res.status(200).json(result.message);
+    res.status(200).json({credits});
   } catch (error){
     console.error("Error when saving data:", error);
     res.status(400).json({ error: error.message });
