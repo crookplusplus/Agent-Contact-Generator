@@ -94,7 +94,7 @@ const CartDisplay = () => {
         <div className="span-col-1">
             {pack}
         </div>
-        <div className="flex flex-col font-pop text-whitesmoke">
+        <div className="flex flex-col justify-evenly font-pop text-whitesmoke">
           <div className="relative">
             <div className="absolute top-0 right-0 px-4">
               <BsTrash3 className="hover:cursor-pointer"
@@ -107,8 +107,8 @@ const CartDisplay = () => {
               {cartState} Contacts
             </span>
           </div>
-          <div className="flex justify-between align-bottom mr-4">
-            <span className="flex text-whitesmoke text-sm">
+          <div className="flex flex-col lg:flex-row justify-between mr-4">
+            <span className="flex text-whitesmoke text-sm mb-4 lg:mb-0">
               <span className="mr-2 mt-1">
                 <AiOutlinePlusCircle
                   className="w-5 h-5 hover:text-color4"
@@ -135,7 +135,7 @@ const CartDisplay = () => {
                 />
               </span>
             </span>
-            <span>${price} per contact</span>
+            <span className="text-sm sm:text-md">${price} per contact</span>
           </div>
         </div>
       </div>
