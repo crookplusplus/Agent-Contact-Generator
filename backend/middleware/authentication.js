@@ -14,7 +14,7 @@ exports.COOKIE_OPTIONS = {
 
 //generate a JWT token
 exports.getToken = user => {
-  return jwt.sign(user, process.env.JWT_SECRET, {
+  return jwt.sign({id: user._id}, process.env.JWT_SECRET, {
     expiresIn: eval(process.env.SESSION_EXPIRY)
   });
 }

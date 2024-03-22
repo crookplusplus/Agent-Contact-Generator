@@ -7,10 +7,10 @@ const options = {};
 options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 options.secretOrKey = process.env.JWT_SECRET;
 
-//Used by the authenticatied requests to deserialize the user, i.e., to fetch user details from the JWT
+//Used by the authenticated requests to deserialize the user, i.e., to fetch user details from the JWT
 passport.use(new JwtStrategy(options, async function(jwt_payload, done) {
     try {
-        const user = await User.findOne({id: jwt_payload.sub});
+        const user = await User.findOne({_id: jwt_payload.id});
         if (user) {
             return done(null, user);
         } else {

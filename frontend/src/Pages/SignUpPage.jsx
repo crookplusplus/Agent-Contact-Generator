@@ -1,19 +1,25 @@
 import React, { useState } from "react";
 import Card from "../Components/Card";
+import { useAuthUserContext } from "../Hooks/useAuthUserContext";
 import { useSignUp } from "../Hooks/useSignUp";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
+  const { userState } = useAuthUserContext();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signup, error, isLoading } = useSignUp();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Sign Up info sent");
-
     await signup(username, email, password);
+
+    if (!error && userState){
+      navigate("/welcome");
+    }
   };
 
   return (
