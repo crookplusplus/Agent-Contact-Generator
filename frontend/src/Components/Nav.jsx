@@ -73,8 +73,8 @@ const Nav = () => {
           <MenuItem site={userState.token ? "/welcome" : "/"} name="HOME" />
           <MenuItem site="/about" name="ABOUT" />
           <MenuItem site="/services" name="SERVICES" />
-          {!userState.token && <MenuItem site="/signup" name="SIGNUP" />}
-          {!userState.token && <MenuItem site="/login" name="LOGIN" />}
+          {/**!userState.token && <MenuItem site="/signup" name="SIGNUP" />*/}
+          {/**!userState.token && <MenuItem site="/login" name="LOGIN" />*/}
           {/**This is just for practice and making backend server calls */}
           {/**{userState.token && <MenuItem site="/test" name="TEST"/>}*/}
           {/**{userState.token && <MenuItem site="/data" name="DATA" />}*/}
