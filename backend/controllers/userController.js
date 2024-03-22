@@ -210,6 +210,7 @@ const getHighlights = async (req, res) => {
 
   try{
     const user = req.user;
+    console.log(user._id);
     for (let callId of user.apiCallsMade) {
       const list = await ApiCall.findById(callId);
       if (list) {

@@ -5,11 +5,6 @@ export const useLogout = () => {
   const [isLoading, setIsLoading] = useState(null);
   const { userState, userDispatch } = useAuthUserContext();
 
-  //used to inspect the state of the context
-  useEffect(() => {
-    console.log("AuthContext state: ", userState);
-  }, [userState]);
-
   const logout = async () => {
     setIsLoading(true);
     //setError(null);
