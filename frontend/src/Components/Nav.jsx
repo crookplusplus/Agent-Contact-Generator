@@ -3,9 +3,7 @@ import { TiThMenu } from "react-icons/ti";
 import { RiCloseLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import MenuItem from "./MenuItem";
-import LogoutButton from "./LogoutButton";
 import { useAuthUserContext } from "../Hooks/useAuthUserContext";
-import CartIcon from "./CartIcon";
 import CartMenu from "./CartMenu";
 import UserIconMenu from "./UserIconMenu";
 
